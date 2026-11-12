@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DollarBoost | Grow Your Financial Future</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+background:#030916;
+color:#fff;
+font-family:Arial,sans-serif;
+overflow-x:hidden;
+}
+
+nav{
+height:80px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 7%;
+background:#071326;
+border-bottom:1px solid #123c68;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:23px;
+font-weight:900;
+}
+
+.brand-icon{
+width:43px;
+height:43px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(145deg,#00b7ff,#0755db);
+box-shadow:0 0 22px #078bff;
+font-size:29px;
+font-weight:bold;
+}
+
+.brand span{color:#26aaff}
+
+.nav-buttons{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.nav-buttons a{
+color:white;
+text-decoration:none;
+font-size:14px;
+}
+
+.nav-buttons .register{
+padding:13px 23px;
+background:linear-gradient(100deg,#087cff,#00baff);
+border-radius:8px;
+box-shadow:0 0 20px #087cff65;
+}
+
+.hero{
+position:relative;
+padding:90px 20px 65px;
+text-align:center;
+background:
+radial-gradient(ellipse at 50% 0%,#104d91 0%,#071b39 40%,#030916 80%);
+}
+
+.hero:before{
+content:"$";
+position:absolute;
+font-size:430px;
+font-weight:900;
+color:#168cff;
+opacity:.035;
+top:10px;
+left:50%;
+transform:translateX(-50%);
+pointer-events:none;
+}
+
+.tag{
+display:inline-block;
+padding:11px 22px;
+border:1px solid #168cff;
+background:#102b4c;
+color:#65bdff;
+border-radius:30px;
+font-size:11px;
+letter-spacing:2px;
+}
+
+.hero h1{
+font-size:clamp(43px,7vw,78px);
+font-weight:900;
+line-height:1.12;
+margin:30px 0 20px;
+}
+
+.hero h1 span{
+color:#21a7ff;
+text-shadow:0 0 30px #087cff;
+}
+
+.hero-text{
+max-width:650px;
+margin:auto;
+font-size:16px;
+line-height:1.9;
+color:#b4c9e2;
+}
+
+.hero-actions{
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+margin-top:35px;
+}
+
+.btn{
+padding:17px 30px;
+border-radius:9px;
+text-decoration:none;
+font-weight:bold;
+display:inline-block;
+}
+
+.btn-primary{
+background:linear-gradient(100deg,#087cff,#00baff);
+color:white;
+box-shadow:0 0 25px #087cff80;
+}
+
+.btn-secondary{
+border:1px solid #168cff;
+color:white;
+background:#0b1e39;
+}
+
+.bonus{
+max-width:850px;
+margin:70px auto 0;
+padding:3px;
+border-radius:20px;
+background:linear-gradient(120deg,#087cff,#00d5ff,#0755db);
+box-shadow:0 0 35px #087cff45;
+position:relative;
+}
+
+.bonus-inner{
+background:linear-gradient(110deg,#0d2850,#071326);
+border-radius:18px;
+padding:32px 25px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.bonus-label{
+color:#59baff;
+font-size:12px;
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.bonus h2{
+font-size:27px;
+margin:12px 0;
+}
+
+.bonus p{
+color:#a9bfd7;
+line-height:1.7;
+font-size:14px;
+}
+
+.bonus-icon{
+width:90px;
+height:90px;
+border-radius:50%;
+background:linear-gradient(145deg,#168cff,#0348bc);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:55px;
+font-weight:900;
+box-shadow:0 0 30px #087cff90;
+}
+
+.section{
+padding:85px 7%;
+text-align:center;
+}
+
+.section-title{
+font-size:35px;
+margin-bottom:15px;
+}
+
+.section-sub{
+color:#9eb4cf;
+line-height:1.8;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:23px;
+margin-top:45px;
+}
+
+.card{
+background:linear-gradient(145deg,#10233f,#071326);
+border:1px solid #174b7e;
+border-radius:17px;
+padding:32px 24px;
+text-align:left;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-7px);
+border-color:#168cff;
+box-shadow:0 0 25px #087cff35;
+}
+
+.card-icon{
+width:55px;
+height:55px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:27px;
+background:#103967;
+border-radius:13px;
+margin-bottom:22px;
+}
+
+.card h3{
+color:#55baff;
+margin-bottom:13px;
+font-size:19px;
+}
+
+.card p{
+color:#a9bfd5;
+font-size:14px;
+line-height:1.8;
+}
+
+.investment{
+background:radial-gradient(ellipse at top,#103567,#061326 65%);
+}
+
+.plan{
+max-width:450px;
+margin:40px auto 0;
+padding:35px;
+border:1px solid #168cff;
+border-radius:20px;
+background:linear-gradient(145deg,#102b4d,#071326);
+box-shadow:0 0 35px #087cff30;
+}
+
+.plan-badge{
+display:inline-block;
+background:#123e6b;
+color:#66c1ff;
+padding:9px 17px;
+border-radius:30px;
+font-size:11px;
+letter-spacing:1px;
+}
+
+.plan h3{
+font-size:25px;
+margin:22px 0;
+}
+
+.price{
+font-size:55px;
+font-weight:900;
+color:#36afff;
+text-shadow:0 0 20px #087cff;
+}
+
+.plan p{
+color:#a8bfd5;
+line-height:1.9;
+margin:15px 0 25px;
+}
+
+.plan .btn{
+width:100%;
+}
+
+.steps{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:25px;
+margin-top:45px;
+}
+
+.step{
+padding:25px;
+border:1px solid #163c63;
+background:#0a192c;
+border-radius:15px;
+}
+
+.step-number{
+font-size:35px;
+color:#168cff;
+font-weight:900;
+margin-bottom:15px;
+}
+
+.step h3{margin-bottom:12px}
+.step p{color:#9eb4cc;line-height:1.7;font-size:14px}
+
+.cta{
+padding:85px 20px;
+text-align:center;
+background:radial-gradient(ellipse at center,#10447c,#030916 75%);
+}
+
+.cta h2{
+font-size:clamp(30px,5vw,45px);
+margin-bottom:18px;
+}
+
+.cta p{
+color:#a8bfd5;
+margin-bottom:30px;
+line-height:1.8;
+}
+
+footer{
+padding:40px 20px;
+text-align:center;
+background:#050e1c;
+border-top:1px solid #153556;
+color:#849bb5;
+font-size:13px;
+line-height:2;
+}
+
+footer .brand{
+justify-content:center;
+margin-bottom:20px;
+}
+
+.disclaimer{
+max-width:800px;
+margin:20px auto 0;
+font-size:11px;
+color:#7189a5;
+}
+
+@media(max-width:600px){
+nav{padding:0 4%;height:72px}
+.brand{font-size:18px}
+.brand-icon{width:37px;height:37px;font-size:24px}
+.nav-buttons{gap:12px;font-size:12px}
+.nav-buttons .register{padding:11px 13px}
+.hero{padding-top:75px}
+.bonus-inner{justify-content:center;text-align:center}
+.bonus h2{font-size:23px}
+.section{padding:65px 5%}
+.section-title{font-size:28px}
+.plan{padding:28px 20px}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="brand">
+<div class="brand-icon">$</div>
+DOLLAR<span>BOOST</span>
+</div>
+
+<div class="nav-buttons">
+<a href="/login">Login</a>
+<a href="/register" class="register">Register</a>
+</div>
+</nav>
+
+<section class="hero">
+
+<div class="tag">✦ THE FUTURE OF DOLLAR INVESTING</div>
+
+<h1>
+Your Money.<br>
+Your Future.<br>
+<span>Your Opportunity.</span>
+</h1>
+
+<p class="hero-text">
+Welcome to DollarBoost, your destination for a modern
+dollar investment experience. Explore investment opportunities,
+manage your portfolio and follow your financial journey
+through one powerful platform.
+</p>
+
+<div class="hero-actions">
+<a href="/register" class="btn btn-primary">GET STARTED NOW →</a>
+<a href="/login" class="btn btn-secondary">LOGIN TO ACCOUNT</a>
+</div>
+
+<div class="bonus">
+<div class="bonus-inner">
+<div>
+<div class="bonus-label">✦ NEW MEMBER WELCOME BONUS</div>
+<h2>Welcome to DollarBoost!</h2>
+<p>
+Discover exclusive new-member promotions and
+eligible welcome rewards. Bonus eligibility,
+value and withdrawal conditions will be disclosed
+before any offer is claimed.
+</p>
+</div>
+
+<div class="bonus-icon">$</div>
+</div>
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">Why Choose DollarBoost?</h2>
+<p class="section-sub">
+A modern approach to managing your dollar investment journey.
+</p>
+
+<div class="cards">
+
+<div class="card">
+<div class="card-icon">💵</div>
+<h3>Dollar Investment</h3>
+<p>Explore opportunities denominated in US dollars and manage your investment activities.</p>
+</div>
+
+<div class="card">
+<div class="card-icon">🔐</div>
+<h3>Account Security</h3>
+<p>Enjoy personal account access with password protection and secure authentication.</p>
+</div>
+
+<div class="card">
+<div class="card-icon">📈</div>
+<h3>Investment Tracking</h3>
+<p>Keep track of your investments, transactions and account activities.</p>
+</div>
+
+<div class="card">
+<div class="card-icon">🌍</div>
+<h3>Easy Access</h3>
+<p>Access your account through a beautiful, mobile-friendly platform.</p>
+</div>
+
+</div>
+</section>
+
+<section class="section investment">
+
+<h2 class="section-title">Start Your Investment Journey</h2>
+
+<p class="section-sub">
+Explore our proposed dollar investment entry level.
+</p>
+
+<div class="plan">
+<div class="plan-badge">DOLLARBOOST INVESTMENT</div>
+
+<h3>Starter Investment</h3>
+
+<div class="price">$100</div>
+
+<p>
+Minimum proposed investment amount<br>
+Dollar-denominated account<br>
+Investment activity tracking<br>
+Access to your personal dashboard
+</p>
+
+<a href="/register" class="btn btn-primary">
+CREATE YOUR ACCOUNT →
+</a>
+</div>
+
+<p class="disclaimer">
+Investment opportunities and returns are subject to verification,
+actual performance and applicable regulations. Investments carry
+risk, including possible loss of principal. No daily profit or
+return is guaranteed. Do not deposit money until the investment
+terms and business authorization have been independently verified.
+</p>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">Get Started in 3 Steps</h2>
+
+<p class="section-sub">
+Your DollarBoost account journey is simple.
+</p>
+
+<div class="steps">
+
+<div class="step">
+<div class="step-number">01</div>
+<h3>Create Account</h3>
+<p>Register with your details and create your personal account.</p>
+</div>
+
+<div class="step">
+<div class="step-number">02</div>
+<h3>Explore Opportunities</h3>
+<p>Review available investment information and associated risks.</p>
+</div>
+
+<div class="step">
+<div class="step-number">03</div>
+<h3>Manage Your Account</h3>
+<p>Access your dashboard and monitor your account activities.</p>
+</div>
+
+</div>
+</section>
+
+<section class="cta">
+
+<h2>Ready to Explore DollarBoost?</h2>
+
+<p>
+Your financial journey deserves a professional beginning.
+Join DollarBoost and explore the platform.
+</p>
+
+<a href="/register" class="btn btn-primary">
+JOIN DOLLARBOOST NOW →
+</a>
+
+</section>
+
+<footer>
+
+<div class="brand">
+<div class="brand-icon">$</div>
+DOLLAR<span>BOOST</span>
+</div>
+
+<p>© 2026 DollarBoost. All Rights Reserved.</p>
+
+<p class="disclaimer">
+Invest responsibly. Investment returns are not guaranteed.
+Review all investment terms and risks before committing funds.
+</p>
+
+</footer>
+
+</body>
+</html>

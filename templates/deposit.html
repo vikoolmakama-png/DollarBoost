@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Crypto Deposit | DollarBoost</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background:
+        radial-gradient(circle at 15% 5%, rgba(20,110,255,.17), transparent 35%),
+        radial-gradient(circle at 90% 80%, rgba(0,190,255,.10), transparent 35%),
+        #060d1b;
+    color: #fff;
+    min-height: 100vh;
+    padding: 25px 15px 45px;
+}
+
+.navbar {
+    max-width: 1050px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0 30px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #318aff;
+}
+
+.back-link {
+    color: #a9c9ff;
+    text-decoration: none;
+    font-size: 13px;
+    border: 1px solid #263e63;
+    padding: 10px 15px;
+    border-radius: 9px;
+}
+
+.container {
+    max-width: 570px;
+    margin: 15px auto;
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.heading .icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 20px;
+    background: linear-gradient(135deg,#1678ff,#00b9ff);
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    margin: 0 auto 17px;
+    box-shadow: 0 0 35px rgba(27,125,255,.35);
+}
+
+.heading h1 {
+    font-size: 29px;
+    font-weight: 800;
+    margin-bottom: 9px;
+}
+
+.heading p {
+    color: #91a7c7;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.card {
+    background: linear-gradient(145deg,#122443,#0c1930);
+    border: 1px solid rgba(72,145,255,.42);
+    border-radius: 21px;
+    padding: 25px;
+    box-shadow: 0 18px 55px rgba(0,0,0,.35);
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.network {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 15px;
+    background: #0a172c;
+    border: 1px solid #29466d;
+    border-radius: 13px;
+    margin-bottom: 23px;
+}
+
+.network-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 12px;
+    background: #f3ba2f;
+    color: #161616;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 19px;
+}
+
+.network small {
+    color: #8ea6c9;
+    display: block;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.network strong {
+    font-size: 14px;
+}
+
+.network .verified {
+    margin-left: auto;
+    color: #48e2a0;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.wallet-label {
+    color: #91a7c7;
+    font-size: 12px;
+    margin-bottom: 9px;
+}
+
+.wallet-box {
+    background: #071327;
+    border: 1px solid #29466d;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wallet-address {
+    color: #70b7ff;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+    flex: 1;
+}
+
+.copy-btn {
+    border: 1px solid #317fe8;
+    color: #8cc3ff;
+    background: rgba(35,115,220,.13);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.copy-btn:active {
+    background: #1768d9;
+    color: white;
+}
+
+.notice {
+    background: rgba(255,190,60,.08);
+    border: 1px solid rgba(255,190,60,.28);
+    padding: 14px;
+    border-radius: 11px;
+    margin: 18px 0 25px;
+    color: #e9c77e;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.divider {
+    height: 1px;
+    background: #263c5c;
+    margin: 23px 0;
+}
+
+label {
+    display: block;
+    color: #dce9ff;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+input {
+    width: 100%;
+    background: #08152a;
+    border: 1px solid #30496e;
+    color: white;
+    padding: 16px;
+    border-radius: 11px;
+    outline: none;
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-family: inherit;
+}
+
+input:focus {
+    border-color: #328cff;
+    box-shadow: 0 0 0 3px rgba(50,140,255,.12);
+}
+
+input::placeholder {
+    color: #657995;
+}
+
+.submit-btn {
+    width: 100%;
+    border: none;
+    padding: 17px;
+    border-radius: 11px;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    background: linear-gradient(100deg,#1769ed,#168fff);
+    box-shadow: 0 8px 25px rgba(20,110,255,.25);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.submit-btn:active {
+    transform: scale(.98);
+}
+
+.steps {
+    margin-top: 25px;
+}
+
+.step {
+    display: flex;
+    gap: 12px;
+    margin: 15px 0;
+    color: #a8bad4;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.step-number {
+    min-width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #173d70;
+    color: #8bc4ff;
+    font-weight: 800;
+}
+
+.footer {
+    text-align: center;
+    color: #657995;
+    font-size: 11px;
+    margin-top: 25px;
+    line-height: 1.8;
+}
+
+.flash {
+    background: rgba(30,180,120,.12);
+    border: 1px solid rgba(30,210,140,.3);
+    color: #72e5b3;
+    padding: 12px;
+    border-radius: 9px;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+@media(max-width:420px) {
+    .card { padding: 19px; }
+    .heading h1 { font-size: 25px; }
+    .wallet-box { align-items: flex-start; flex-direction: column; }
+    .copy-btn { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">DOLLAR<span>BOOST</span></div>
+    <a href="/dashboard" class="back-link">← Dashboard</a>
+</nav>
+
+<main class="container">
+
+    <div class="heading">
+        <div class="icon">₿</div>
+        <h1>Secure Crypto Deposit</h1>
+        <p>Fund your DollarBoost account using cryptocurrency.</p>
+    </div>
+
+    <div class="card">
+
+        {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% endwith %}
+
+        <div class="section-title">Payment Network</div>
+
+        <div class="network">
+            <div class="network-icon">B</div>
+            <div>
+                <small>SELECTED NETWORK</small>
+                <strong>BNB Smart Chain</strong>
+            </div>
+            <div class="verified">● BEP-20</div>
+        </div>
+
+        <div class="section-title">Payment Wallet Address</div>
+        <div class="wallet-label">Send your crypto to this address</div>
+
+        <div class="wallet-box">
+            <div class="wallet-address" id="wallet">{{ wallet }}</div>
+            <button type="button" class="copy-btn" onclick="copyWallet()" id="copyButton">COPY</button>
+        </div>
+
+        <div class="notice">
+            <strong>Important payment notice</strong><br>
+            Only send supported assets through BNB Smart Chain (BEP-20). Sending through another network may result in permanent loss. Confirm the network and asset before transferring.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-title">Submit Your Payment</div>
+
+        <form method="POST" onsubmit="return confirmSubmission()">
+
+            <label for="amount">Deposit Amount (USD)</label>
+            <input
+                type="number"
+                id="amount"
+                name="amount"
+                min="1"
+                max="1000000"
+                step="0.01"
+                placeholder="Enter amount, e.g. 100"
+                required
+            >
+
+            <label for="tx_hash">Blockchain Transaction Hash</label>
+            <input
+                type="text"
+                id="tx_hash"
+                name="tx_hash"
+                placeholder="Paste your transaction hash"
+                maxlength="150"
+                required
+            >
+
+            <button type="submit" class="submit-btn">
+                SUBMIT PAYMENT FOR VERIFICATION →
+            </button>
+
+        </form>
+
+        <div class="steps">
+            <div class="section-title">How it works</div>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <span>Copy the wallet address and send your crypto using the correct network.</span>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <span>Enter the USD amount and paste your blockchain transaction hash.</span>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <span>Submit your payment. Your deposit remains pending until an administrator verifies it.</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        DOLLARBOOST SECURE PAYMENT PORTAL<br>
+        Always verify the wallet address before sending funds.
+    </div>
+
+</main>
+
+<script>
+function copyWallet() {
+    const address = document.getElementById("wallet").innerText;
+    const button = document.getElementById("copyButton");
+
+    function copied() {
+        button.innerText = "COPIED ✓";
+        setTimeout(() => button.innerText = "COPY", 2000);
+    }
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(address).then(copied);
+    } else {
+        const field = document.createElement("textarea");
+        field.value = address;
+        document.body.appendChild(field);
+        field.select();
+        document.execCommand("copy");
+        field.remove();
+        copied();
+    }
+}
+
+function confirmSubmission() {
+    return confirm("Have you completed your crypto transfer and checked the transaction hash?");
+}
+</script>
+
+</body>
+</html>

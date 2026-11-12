@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard | DollarBoost</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top left,#102b4d,#071426 48%,#040b16);font-family:Arial,sans-serif;color:#eef6ff;min-height:100vh}
+header{padding:22px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;background:rgba(7,20,38,.88);border-bottom:1px solid #1b4266;position:sticky;top:0;z-index:5;backdrop-filter:blur(15px)}
+.brand{font-size:21px;font-weight:900;letter-spacing:1px}.brand span{color:#00dfa5;text-shadow:0 0 15px #00dfa5}
+.logout{padding:11px 17px;border-radius:9px;background:#17304d;border:1px solid #32618c;color:white;text-decoration:none;font-size:13px}
+main{max-width:1150px;margin:auto;padding:30px 18px 60px}
+.welcome{padding:27px;border-radius:20px;background:linear-gradient(120deg,#102f53,#0c2541);border:1px solid #24517a;box-shadow:0 0 28px #087bff15;margin-bottom:25px}
+.welcome h1{margin:0 0 8px;font-size:26px}.welcome p{margin:0;color:#9db6d3;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:30px}
+.stat{padding:21px;border:1px solid #23466a;border-radius:16px;background:linear-gradient(145deg,#102844,#0a1b30);box-shadow:0 0 20px #087bff10}
+.stat small{color:#91aac8;font-size:12px}.stat strong{display:block;font-size:29px;margin-top:12px;color:#fff}.stat:nth-child(2) strong{color:#00dfa5}.stat:nth-child(3) strong{color:#57aaff}
+.section{margin:28px 0;padding:22px;border-radius:18px;background:rgba(12,31,53,.85);border:1px solid #1d4165;box-shadow:0 8px 30px #0002}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+h2{font-size:19px;margin:0;color:#eaf5ff}
+.count{font-size:11px;padding:7px 11px;border-radius:30px;background:#12395b;color:#73c1ff;border:1px solid #28618c}
+.item{padding:19px;margin:13px 0;border-radius:13px;background:linear-gradient(120deg,#102945,#0b1d32);border:1px solid #234765;overflow-wrap:anywhere}
+.item p{font-size:13px;color:#b9cce0;margin:9px 0;line-height:1.5}
+.item strong{color:#fff}.status{color:#00dfa5!important;font-weight:bold}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+button{padding:11px 15px;border:0;border-radius:9px;font-weight:bold;color:white;cursor:pointer}
+.approve{background:linear-gradient(100deg,#087c59,#00b982);box-shadow:0 0 13px #00c58b30}
+.reject{background:linear-gradient(100deg,#a72b47,#e04b5f)}
+input{width:100%;padding:13px;border:1px solid #294c70;border-radius:9px;background:#07182b;color:white;margin:8px 0;outline:none}
+input:focus{border-color:#138fff;box-shadow:0 0 12px #087bff44}
+.empty{padding:20px;text-align:center;color:#819bb9;background:#0a1c30;border-radius:11px;font-size:13px}
+.notice{color:#9db8d4;font-size:12px;line-height:1.6}
+.flash{padding:13px;border-radius:10px;background:#123d39;border:1px solid #16866e;color:#a5ffe3;margin:15px 0}
+hr{border:0;border-top:1px solid #1d4165;margin:30px 0}
+@media(max-width:650px){header{padding:17px}.brand{font-size:17px}main{padding:20px 12px}.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}.stat strong{font-size:24px}.welcome{padding:21px}.section{padding:16px}.item{padding:15px}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">DOLLAR<span>BOOST</span> <small style="font-size:10px;color:#829bb8">ADMIN</small></div>
+<a class="logout" href="/admin/logout">LOG OUT ↗</a>
+</header>
+<main>
+<div class="welcome">
+<h1>Admin Control Centre</h1>
+<p>Manage users, deposits, withdrawals, investments and reward funding.</p>
+</div>
+
+{% with messages = get_flashed_messages() %}
+{% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}
+{% endwith %}
+
+<div class="stats">
+<div class="stat"><small>TOTAL REGISTERED USERS</small><strong>{{ total_users }}</strong></div>
+<div class="stat"><small>PENDING DEPOSITS</small><strong>{{ pending }}</strong></div>
+<div class="stat"><small>PENDING WITHDRAWALS</small><strong>{{ pending_withdrawals }}</strong></div>
+</div>
+
+<section class="section">
+<div class="section-head"><h2>💳 Deposit Submissions</h2><span class="count">{{ pending }} PENDING</span></div>
+{% for d in deposits %}
+<div class="item">
+<p>User: <strong>{{ d.user.username }}</strong></p>
+<p>Amount: <strong>${{ "%.2f"|format(d.amount) }} USDT</strong></p>
+<p>Network: {{ d.network }}</p>
+<p>Transaction: {{ d.tx_hash }}</p>
+<p>Status: <span class="status">{{ d.status }}</span></p>
+<p>Submitted: {{ d.created_at }}</p>
+{% if d.status == "Pending" %}
+<div class="actions">
+<form method="POST" action="/admin/deposit/{{ d.id }}/approve"><button class="approve">✓ Approve Deposit</button></form>
+<form method="POST" action="/admin/deposit/{{ d.id }}/reject"><button class="reject">✕ Reject Deposit</button></form>
+</div>
+{% endif %}
+</div>
+{% else %}<div class="empty">No deposit submissions yet.</div>{% endfor %}
+</section>
+
+<section class="section">
+<div class="section-head"><h2>💸 Withdrawal Requests</h2><span class="count">{{ pending_withdrawals }} PENDING</span></div>
+{% for w in withdrawals %}
+<div class="item">
+<p>User: <strong>{{ w.user.username }}</strong></p>
+<p>Amount: <strong>${{ "%.2f"|format(w.amount) }} USDT</strong></p>
+<p>Network: {{ w.network }}</p>
+<p>Receiving wallet: {{ w.wallet }}</p>
+<p>Status: <span class="status">{{ w.status }}</span></p>
+<p>Submitted: {{ w.created_at }}</p>
+{% if w.status == "Pending" %}
+<form method="POST" action="/admin/withdrawal/{{ w.id }}/paid">
+<label>Payout transaction hash</label>
+<input name="payout_tx_hash" required minlength="20" maxlength="150" placeholder="Enter transaction hash after sending USDT">
+<button class="approve">✓ Mark as Paid</button>
+</form>
+<form method="POST" action="/admin/withdrawal/{{ w.id }}/reject"><button class="reject">Reject and Refund</button></form>
+{% elif w.payout_tx_hash %}
+<p>Payout transaction: {{ w.payout_tx_hash }}</p>
+{% endif %}
+</div>
+{% else %}<div class="empty">No withdrawal requests yet.</div>{% endfor %}
+</section>
+
+<section class="section">
+<div class="section-head"><h2>💎 Reward Pool Funding</h2><span class="count">REWARD MANAGEMENT</span></div>
+<div class="item">
+<p>Available reward pool</p>
+<strong style="font-size:30px;color:#00dfa5">${{ "%.2f"|format(reward_pool.balance) }} USDT</strong>
+<form method="POST" action="/admin/reward-pool/fund">
+<label>Amount to add</label>
+<input type="number" name="amount" min="0.01" step="0.01" placeholder="Enter funding amount" required>
+<button class="approve">＋ Fund Reward Pool</button>
+</form>
+</div>
+</section>
+
+<section class="section">
+<div class="section-head"><h2>📈 Investment Submissions</h2><span class="count">{{ pending_investments }} PENDING</span></div>
+{% for inv in investments %}
+<div class="item">
+<p>User: <strong>{{ inv.user.username }}</strong></p>
+<p>Investment: <strong>${{ "%.2f"|format(inv.amount) }} USDT</strong></p>
+<p>Potential daily reward: ${{ "%.2f"|format(inv.daily_reward) }}</p>
+<p>Status: <span class="status">{{ inv.status }}</span></p>
+<p>Submitted: {{ inv.created_at }}</p>
+{% if inv.status == "Pending" %}
+<div class="actions">
+<form method="POST" action="/admin/investment/{{ inv.id }}/approve"><button class="approve">✓ Approve Investment</button></form>
+<form method="POST" action="/admin/investment/{{ inv.id }}/reject"><button class="reject">Reject and Refund</button></form>
+</div>
+{% endif %}
+</div>
+{% else %}<div class="empty">No investment submissions yet.</div>{% endfor %}
+</section>
+
+<section class="section">
+<div class="section-head"><h2>🎁 Daily Reward Requests</h2><span class="count">{{ pending_rewards }} PENDING</span></div>
+<p class="notice">Review pending reward requests. Claims credited immediately by the user dashboard will already show as Approved.</p>
+{% for claim in reward_claims %}
+<div class="item">
+<p>User: <strong>{{ claim.user.username }}</strong></p>
+<p>Investment ID: {{ claim.investment_id }}</p>
+<p>Reward amount: <strong>${{ "%.2f"|format(claim.amount) }} USDT</strong></p>
+<p>Status: <span class="status">{{ claim.status }}</span></p>
+<p>Requested: {{ claim.created_at }}</p>
+{% if claim.status == "Pending" %}
+<div class="actions">
+<form method="POST" action="/admin/reward/{{ claim.id }}/approve"><button class="approve">Approve and Credit</button></form>
+<form method="POST" action="/admin/reward/{{ claim.id }}/reject"><button class="reject">Reject Request</button></form>
+</div>
+{% endif %}
+</div>
+{% else %}<div class="empty">No reward requests yet.</div>{% endfor %}
+</section>
+
+<p style="text-align:center;color:#607d9d;font-size:11px">DOLLARBOOST ADMINISTRATION · SECURE CONTROL PANEL</p>
+</main>
+</body>
+</html>

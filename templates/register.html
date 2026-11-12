@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create Account | DollarBoost</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="auth-container">
+    <a href="/" class="logo">DOLLAR<span>BOOST</span></a>
+
+    <div class="auth-box">
+        <div class="badge">JOIN DOLLARBOOST</div>
+        <h1>Create Account</h1>
+        <p>Start your financial journey with us.</p>
+
+        {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+        <div class="alert">{{ message }}</div>
+        {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            <label>Full Name</label>
+            <input name="fullname" placeholder="Enter your full name" required>
+
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label>Username</label>
+            <input name="username" placeholder="Choose a username" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Minimum 8 characters" minlength="8" required>
+
+            <button type="submit" class="primary-btn full">CREATE ACCOUNT →</button>
+        </form>
+
+        <p class="bottom-text">
+            Already have an account? <a href="/login">Login</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

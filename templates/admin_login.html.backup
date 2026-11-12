@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Login | DollarBoost</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<section class="dashboard">
+<div class="dashboard-card">
+<h1>DollarBoost Admin</h1>
+{% with messages = get_flashed_messages() %}
+{% for message in messages %}<p>{{ message }}</p>{% endfor %}
+{% endwith %}
+<form method="POST">
+<p>Username</p>
+<input name="username" required>
+<p>Password</p>
+<input type="password" name="password" required>
+<button type="submit">Admin Login</button>
+</form>
+</div>
+</section>
+</body>
+</html>

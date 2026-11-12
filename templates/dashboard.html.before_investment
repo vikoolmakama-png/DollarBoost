@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard | DollarBoost</title>
+<link rel="stylesheet" href="/static/style.css">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(25,105,255,.13), transparent 35%),
+        #060d1b;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #348cff;
+}
+
+.nav-btn {
+    background: #132747;
+    border: 1px solid #294d7d;
+    color: #b9d8ff;
+    padding: 10px 17px;
+    border-radius: 9px;
+    text-decoration: none;
+}
+
+.dashboard {
+    max-width: 650px;
+    margin: 25px auto;
+    padding: 18px;
+}
+
+.badge {
+    display: inline-block;
+    background: rgba(35,125,255,.13);
+    color: #65adff;
+    border: 1px solid #285b98;
+    padding: 8px 13px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.welcome {
+    margin: 20px 0 25px;
+}
+
+.welcome h1 {
+    font-size: 27px;
+    margin-bottom: 9px;
+}
+
+.welcome h1 span {
+    color: #4a9cff;
+}
+
+.welcome p {
+    color: #9aafce;
+    font-size: 14px;
+}
+
+.balance-box {
+    background: linear-gradient(130deg,#1555ad,#102747 75%);
+    border: 1px solid #398bff;
+    border-radius: 19px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 12px 35px rgba(0,85,200,.16);
+}
+
+.balance-label {
+    color: #c0d9ff;
+    font-size: 13px;
+}
+
+.balance-box h2 {
+    font-size: 34px;
+    margin: 13px 0;
+    letter-spacing: .5px;
+}
+
+.balance-box p {
+    font-size: 12px;
+    color: #c0d9ff;
+}
+
+.action-heading {
+    font-size: 18px;
+    margin: 30px 0 15px;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.action-card {
+    min-width: 0;
+    padding: 21px 14px;
+    border-radius: 17px;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    transition: .2s;
+}
+
+.action-card:active {
+    transform: scale(.97);
+}
+
+.deposit-card {
+    background: linear-gradient(145deg,#176ce8,#1046a1);
+    border: 1px solid #4b9aff;
+    box-shadow: 0 8px 25px rgba(20,100,255,.18);
+}
+
+.withdraw-card {
+    background: linear-gradient(145deg,#087e78,#07534f);
+    border: 1px solid #24b9a9;
+    box-shadow: 0 8px 25px rgba(0,180,160,.13);
+}
+
+.action-icon {
+    width: 45px;
+    height: 45px;
+    background: rgba(255,255,255,.14);
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+}
+
+.action-card strong {
+    font-size: 16px;
+}
+
+.action-card small {
+    color: #d1e5ff;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.action-arrow {
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.history-card {
+    background: #0e1d34;
+    border: 1px solid #24466f;
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 27px;
+}
+
+.history-card h3 {
+    font-size: 17px;
+    margin-bottom: 15px;
+}
+
+.history {
+    background: #09152a;
+    border: 1px solid #203a5d;
+    border-radius: 11px;
+    padding: 14px;
+    margin: 11px 0;
+    overflow-wrap: anywhere;
+}
+
+.history p {
+    font-size: 12px;
+    color: #b3c6e0;
+    margin: 7px 0;
+}
+
+.status {
+    color: #70baff;
+    font-weight: bold;
+}
+
+.empty {
+    color: #879bb8;
+    font-size: 13px;
+}
+
+@media(max-width:380px) {
+    .dashboard {
+        padding: 12px;
+    }
+
+    .action-card {
+        padding: 16px 11px;
+    }
+
+    .action-card strong {
+        font-size: 14px;
+    }
+
+    .balance-box h2 {
+        font-size: 29px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">DOLLAR<span>BOOST</span></div>
+    <a href="/logout" class="nav-btn">Logout</a>
+</nav>
+
+<section class="dashboard">
+
+    <div class="badge">PERSONAL DASHBOARD</div>
+
+    <div class="welcome">
+        <h1>Welcome, <span>{{ user.fullname }}</span></h1>
+        <p>Manage your DollarBoost account from here.</p>
+    </div>
+
+    <div class="balance-box">
+        <div class="balance-label">AVAILABLE BALANCE</div>
+        <h2>${{ "%.2f"|format(user.balance or 0) }}</h2>
+        <p>Your balance updates after deposit verification.</p>
+    </div>
+
+    <h3 class="action-heading">Manage Your Funds</h3>
+
+    <div class="actions">
+
+        <a href="/deposit" class="action-card deposit-card">
+            <div class="action-icon">↓</div>
+            <strong>Deposit Funds</strong>
+            <small>Add funds using crypto on BNB Smart Chain.</small>
+            <span class="action-arrow">DEPOSIT NOW →</span>
+        </a>
+
+        <a href="/withdraw" class="action-card withdraw-card">
+            <div class="action-icon">↑</div>
+            <strong>Withdraw USDT</strong>
+            <small>Request a payout to your BEP-20 wallet.</small>
+            <span class="action-arrow">WITHDRAW NOW →</span>
+        </a>
+
+    </div>
+
+
+    <div class="history-card">
+        <h3>Investment Centre</h3>
+        <p style="color:#9aafce;font-size:13px;line-height:1.7">
+            Choose an amount from your available balance to create an investment.
+            The displayed 20% daily reward is a proposed promotional amount,
+            not a guaranteed return. Reward requests require admin approval
+            and available funding.
+        </p>
+
+        <form method="POST" action="/invest">
+            <label for="investment_amount">Investment amount (USDT)</label>
+            <input id="investment_amount" type="number"
+                   name="amount" min="10" step="0.01"
+                   placeholder="Minimum 10 USDT" required
+                   style="width:100%;padding:14px;background:#09152a;color:white;border:1px solid #31547e;border-radius:10px;margin:12px 0">
+
+            <button type="submit"
+                    style="width:100%;padding:15px;background:linear-gradient(100deg,#176ce8,#168fff);color:white;border:0;border-radius:10px;font-weight:bold">
+                INVEST NOW
+            </button>
+        </form>
+
+        <h3 style="margin-top:25px">Your Investments</h3>
+
+        {% for inv in investments %}
+        <div class="history">
+            <p>Investment: ${{ "%.2f"|format(inv.amount) }}</p>
+            <p>Proposed daily reward: ${{ "%.2f"|format(inv.daily_reward) }}</p>
+            <p>Status: <span class="status">{{ inv.status }}</span></p>
+            <p>Started: {{ inv.created_at }}</p>
+
+            <form method="POST" action="/investment/claim/{{ inv.id }}">
+                <button type="submit"
+                    style="width:100%;padding:13px;margin-top:10px;background:#087e78;color:white;border:0;border-radius:9px;font-weight:bold">
+                    REQUEST DAILY REWARD
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <p class="empty">You have no investments yet.</p>
+        {% endfor %}
+
+        <h3 style="margin-top:25px">Daily Reward Requests</h3>
+        {% for claim in reward_claims %}
+        <div class="history">
+            <p>Reward: ${{ "%.2f"|format(claim.amount) }}</p>
+            <p>Status: <span class="status">{{ claim.status }}</span></p>
+            <p>Requested: {{ claim.created_at }}</p>
+        </div>
+        {% else %}
+        <p class="empty">No reward requests yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="history-card">
+        <h3>Deposit History</h3>
+
+        {% for d in deposits %}
+        <div class="history">
+            <p>Amount: ${{ "%.2f"|format(d.amount) }}</p>
+            <p>Status: <span class="status">{{ d.status }}</span></p>
+            <p>Network: {{ d.network }}</p>
+            <p>Transaction: {{ d.tx_hash }}</p>
+        </div>
+        {% else %}
+        <p class="empty">No deposits submitted yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="history-card">
+        <h3>Withdrawal History</h3>
+
+        {% for w in withdrawals %}
+        <div class="history">
+            <p>Amount: {{ "%.2f"|format(w.amount) }} USDT</p>
+            <p>Status: <span class="status">{{ w.status }}</span></p>
+            <p>Network: {{ w.network }}</p>
+            <p>Wallet: {{ w.wallet }}</p>
+            {% if w.payout_tx_hash %}
+            <p>Transaction: {{ w.payout_tx_hash }}</p>
+            {% endif %}
+        </div>
+        {% else %}
+        <p class="empty">No withdrawal requests yet.</p>
+        {% endfor %}
+    </div>
+
+</section>
+
+</body>
+</html>

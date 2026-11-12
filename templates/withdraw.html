@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Withdraw USDT | DollarBoost</title>
+<link rel="stylesheet" href="/static/style.css">
+<style>
+*{box-sizing:border-box}
+body{background:#060d1b;color:white;font-family:Arial,sans-serif;padding:20px}
+.wrap{max-width:540px;margin:35px auto}
+.card{background:linear-gradient(145deg,#122443,#0b172d);border:1px solid #287bff;border-radius:20px;padding:25px;box-shadow:0 15px 45px #0008}
+.top{text-align:center;margin-bottom:25px}
+.icon{width:65px;height:65px;border-radius:20px;background:linear-gradient(135deg,#1678ff,#00b9ff);display:grid;place-items:center;font-size:27px;margin:auto auto 15px}
+h1{font-size:27px;margin-bottom:10px}
+.muted{color:#9aafce;font-size:13px;line-height:1.7}
+.balance{background:#08152a;border:1px solid #29466d;border-radius:12px;padding:17px;margin:20px 0}
+.balance strong{display:block;font-size:27px;color:#66b4ff;margin-top:8px}
+.minimum{background:#142d4d;border:1px solid #315d91;padding:13px;border-radius:10px;margin-bottom:22px;color:#b7d7ff;font-size:13px}
+label{display:block;font-size:13px;margin-bottom:9px;font-weight:bold}
+input{width:100%;padding:15px;background:#08152a;border:1px solid #30496e;color:white;border-radius:10px;margin-bottom:20px;outline:none}
+input:focus{border-color:#328cff}
+button{width:100%;padding:16px;border:0;border-radius:10px;background:linear-gradient(100deg,#1769ed,#168fff);color:white;font-weight:bold;font-size:14px}
+a{color:#78baff;text-decoration:none}
+.notice{font-size:12px;color:#9aafce;line-height:1.7;margin-top:18px}
+.flash{background:#19385c;padding:12px;border-radius:8px;margin-bottom:15px;color:#c6e0ff}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top">
+<div class="icon">↗</div>
+<h1>Withdraw USDT</h1>
+<p class="muted">Request a payout to your external crypto wallet.</p>
+</div>
+
+<div class="card">
+{% with messages = get_flashed_messages() %}
+{% for message in messages %}
+<div class="flash">{{ message }}</div>
+{% endfor %}
+{% endwith %}
+
+<div class="balance">
+<span class="muted">Available balance</span>
+<strong>${{ "%.2f"|format(user.balance or 0) }}</strong>
+</div>
+
+<div class="minimum">
+<strong>Minimum withdrawal: 50 USDT</strong><br>
+Network: {{ network }}
+</div>
+
+<form method="POST">
+<label>Withdrawal amount (USDT)</label>
+<input type="number" name="amount" min="50" step="0.01" placeholder="Enter amount" required>
+
+<label>Your USDT BEP-20 receiving address</label>
+<input type="text" name="wallet" placeholder="0x..." maxlength="100" required>
+
+<button type="submit">SUBMIT WITHDRAWAL REQUEST →</button>
+</form>
+
+<p class="notice">
+Your requested amount will be reserved from your available balance while the admin reviews your request. Rejected requests are refunded to your balance. Network fees and processing times may apply.
+</p>
+<p style="margin-top:20px"><a href="/dashboard">← Back to Dashboard</a></p>
+</div>
+</div>
+</body>
+</html>

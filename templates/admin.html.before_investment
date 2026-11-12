@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard | DollarBoost</title>
+<link rel="stylesheet" href="/static/style.css">
+<style>
+.admin-wrap{max-width:1000px;margin:30px auto;padding:15px;color:white}
+.deposit-row{background:#101e3b;padding:17px;margin:15px 0;border-radius:12px;overflow-wrap:anywhere}
+button{padding:10px 15px;border:0;border-radius:7px;margin:5px;cursor:pointer}
+.approve{background:#087e50;color:white}.reject{background:#b83242;color:white}
+</style>
+</head>
+<body>
+<div class="admin-wrap">
+<h1>DollarBoost Admin</h1>
+<p>Total users: {{ total_users }}</p>
+<p>Pending deposits: {{ pending }}</p>
+<a href="/admin/logout">Logout</a>
+{% with messages = get_flashed_messages() %}
+{% for message in messages %}<p>{{ message }}</p>{% endfor %}
+{% endwith %}
+<h2>Deposit Submissions</h2>
+{% for d in deposits %}
+<div class="deposit-row">
+<p>User: {{ d.user.username }}</p>
+<p>Amount: ${{ "%.2f"|format(d.amount) }}</p>
+<p>Network: {{ d.network }}</p>
+<p>Transaction: {{ d.tx_hash }}</p>
+<p>Status: <strong>{{ d.status }}</strong></p>
+<p>Submitted: {{ d.created_at }}</p>
+{% if d.status == "Pending" %}
+<form method="POST" action="/admin/deposit/{{ d.id }}/approve">
+<button class="approve">Approve</button>
+</form>
+<form method="POST" action="/admin/deposit/{{ d.id }}/reject">
+<button class="reject">Reject</button>
+</form>
+{% endif %}
+</div>
+{% else %}
+<p>No deposits submitted yet.</p>
+{% endfor %}
+
+<hr style="margin:30px 0;border-color:#29466d">
+<h2>Withdrawal Requests</h2>
+<p>Pending withdrawals: {{ pending_withdrawals }}</p>
+
+{% for w in withdrawals %}
+<div class="deposit-row">
+<p>User: {{ w.user.username }}</p>
+<p>Amount: {{ "%.2f"|format(w.amount) }} USDT</p>
+<p>Network: {{ w.network }}</p>
+<p>Receiving wallet: {{ w.wallet }}</p>
+<p>Status: <strong>{{ w.status }}</strong></p>
+<p>Submitted: {{ w.created_at }}</p>
+
+{% if w.status == "Pending" %}
+<form method="POST" action="/admin/withdrawal/{{ w.id }}/paid">
+<label>Payout transaction hash</label>
+<input name="payout_tx_hash" required minlength="20" maxlength="150"
+placeholder="Enter transaction hash after sending USDT">
+<button class="approve">Mark as Paid</button>
+</form>
+
+<form method="POST" action="/admin/withdrawal/{{ w.id }}/reject">
+<button class="reject">Reject and Refund</button>
+</form>
+{% elif w.payout_tx_hash %}
+<p>Payout transaction: {{ w.payout_tx_hash }}</p>
+{% endif %}
+</div>
+{% else %}
+<p>No withdrawal requests yet.</p>
+{% endfor %}
+
+
+<hr style="margin:35px 0;border-color:#29466d">
+
+<h2>Daily Reward Requests</h2>
+<p>Pending reward requests: {{ pending_rewards }}</p>
+<p style="color:#a9bfdc">
+    Approve only after confirming that the reward is funded and ready to credit.
+</p>
+
+{% for claim in reward_claims %}
+<div class="deposit-row">
+    <p>User: {{ claim.user.username }}</p>
+    <p>Investment ID: {{ claim.investment_id }}</p>
+    <p>Reward amount: ${{ "%.2f"|format(claim.amount) }}</p>
+    <p>Status: <strong>{{ claim.status }}</strong></p>
+    <p>Requested: {{ claim.created_at }}</p>
+
+    {% if claim.status == "Pending" %}
+    <form method="POST" action="/admin/reward/{{ claim.id }}/approve">
+        <button class="approve">Approve and Credit</button>
+    </form>
+
+    <form method="POST" action="/admin/reward/{{ claim.id }}/reject">
+        <button class="reject">Reject Request</button>
+    </form>
+    {% endif %}
+</div>
+{% else %}
+<p>No reward requests yet.</p>
+{% endfor %}
+</div>
+</body>
+</html>
